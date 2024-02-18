@@ -182,7 +182,7 @@ With the data now cleaned and processed, a table with all rides and no missing v
 
 The tool used for this was Tableau, and the dashboard can be seen [here](https://public.tableau.com/views/GoogleDataAnalyticsCapstoneProjectCyclistic_17082839734260/CyclisticCaseStudy?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link). 
 
-![Dashboard Screenshot](<img width="1211" alt="Screenshot 2024-02-18 at 15 08 34" src="https://github.com/jxhos0/Google-Data-Analytics-Capstone-Project/assets/65057135/1a873651-ecb7-4140-9d92-978894fb4dfb">)
+![Dashboard Screenshot](https://github.com/jxhos0/Google-Data-Analytics-Capstone-Project/assets/65057135/1a873651-ecb7-4140-9d92-978894fb4dfb)
 
 
 ### Observations of Member Usage
