@@ -3,10 +3,10 @@
 ## Introduction
 
 ### About the Company
-Cyclistic is a bike-share program that features more than 5,800 bicycles and 600 docking stations. Cyclistic sets itself apart by also oering reclining bikes, hand tricycles, and cargo bikes, making bike-share more inclusive to people with disabilities and riders who can’t use a standard two-wheeled bike. The majority of riders opt for traditional bikes; about 8% of riders use the assistive options. Cyclistic users are more likely to ride for leisure, but about 30% use the bikes to commute to work each day.
+Cyclistic is a bike-share program that features more than 5,800 bicycles and 600 docking stations. Cyclistic sets itself apart by also offering reclining bikes, hand tricycles, and cargo bikes, making bike-share more inclusive to people with disabilities and riders who can’t use a standard two-wheeled bike. The majority of riders opt for traditional bikes; about 8% of riders use the assistive options. Cyclistic users are more likely to ride for leisure, but about 30% use the bikes to commute to work each day.
 
 ### Scenario
-Lily Moreno, the director of marketing at Cyclistic believes the company’s future success depends on maximizing the number of annual memberships. Therefore, the team wants to understand how casual riders and annual members use Cyclistic bikes dierently. From these insights, a new marketing strategy will be designed to convert casual riders into annual members. But first, recommendations must be backed up with compelling data insights and professional data visualizations, so Cyclistic executives must approve them.
+Lily Moreno, the director of marketing at Cyclistic believes the company’s future success depends on maximising the number of annual memberships. Therefore, the team wants to understand how casual riders and annual members use Cyclistic bikes differently. From these insights, a new marketing strategy will be designed to convert casual riders into annual members. But first, recommendations must be backed up with compelling data insights and professional data visualisations, so Cyclistic executives must approve them.
 
 ## Ask
 For this analysis, Moreno has set a clear goal. Design marketing strategies aimed at converting casual riders into annual members.
@@ -14,7 +14,7 @@ For this analysis, Moreno has set a clear goal. Design marketing strategies aime
 To help the marketing team accomplish this the below business task was created.
 
 ### Business Task
-Analyse and understand how annual members and casual riders use Cyclistic bikes dierently.
+Analyse and understand how annual members and casual riders use Cyclistic bikes differently.
 
 ### Stakeholders
 **Lily Moreno:** The director of marketing and your manager. Moreno is responsible for the development of campaigns and initiatives to promote the bike-share program. These may include email, social media, and other channels.
@@ -22,7 +22,7 @@ Analyse and understand how annual members and casual riders use Cyclistic bikes 
 **Cyclistic executive team:** The notoriously detail-oriented executive team will decide whether to approve the recommended marketing program.
 
 ## Prepare
-Data to complete this analysis was stored in a [public database](https://divvy-tripdata.s3.amazonaws.com/index.html) published by Motivate International Inc. under this [license](https://divvybikes.com/data-license-agreement).
+Data to complete this analysis was stored in a [public database](https://divvy-tripdata.s3.amazonaws.com/index.html) published by Motivate International Inc. under this [licence](https://divvybikes.com/data-license-agreement).
 
 Twelve csv files were downloaded, covering the months of January 2023 - December 2023, creating a master version and working copy. 
 
@@ -130,7 +130,7 @@ With a clean dataset it was important to perform calculations in order to better
 - Month
 - Ride length
 
-To complete these calcualtions we used the CASE EXTRACT function in Google BigQuery, utilising the started_at and ended_at timestamps in order to complete these calculations.
+To complete these calculations we used the CASE EXTRACT function in Google BigQuery, utilising the started_at and ended_at timestamps in order to complete these calculations.
 
 Running the below query created a new table (unless it existed) adding columns fora day of week, month and ride length. While performing these calculations it was decided to exclude rides where the ride length was less than 1 minute or more than 24 hours as these were deemed as outliers.
 ```
@@ -180,9 +180,30 @@ CREATE TABLE IF NOT EXISTS `divvy-comp.data.2023-cleaneddata_mod` AS (
 ## Share
 With the data now cleaned and processed, a table with all rides and no missing values was able to be used to create valid visualisations to adequately present findings. 
 
-The tool used for this was Tableau, and the dhasboard can be seen [here](https://public.tableau.com/views/GoogleDataAnalyticsCapstoneProjectCyclistic_17082839734260/CyclisticCaseStudy?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link). 
+The tool used for this was Tableau, and the dashboard can be seen [here](https://public.tableau.com/views/GoogleDataAnalyticsCapstoneProjectCyclistic_17082839734260/CyclisticCaseStudy?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link). 
 
+![Dashboard Screenshot](<img width="1211" alt="Screenshot 2024-02-18 at 15 08 34" src="https://github.com/jxhos0/Google-Data-Analytics-Capstone-Project/assets/65057135/ff3b6309-d424-421f-babf-709c51227213">)
 
+### Observations of Member Usage
+Reviewing the data a few key observations for how members use Cyclistic were noted:
+- Based on the times of the trips, members primarily used Cyclistic for commuting, primarily busiest from 6 - 8AM and from 4 - 6PM.
+- Members have the lowest usage on weekend, with Tuesday to Thursday being the busiest. This again backs up the observation of members using the service to commute.
+- The summer months are the most popular time for members to use the service, recording approximately twice as many rides during the peak in summer than the middle of winter. This would be attributed to weather and conditions.
 
+### Observations of Casual Usage
+- Casual usage steadily increases from 5AM till a peak of 5PM for casual riders.
+- Usage by day indicates that casual riders are primarily using the service on weekends, the lowest number of trips being recorded during the week.
+- Similar to the members, casual riders use the service the most through the summer months, and the least during the winter months.
+
+### Comparing Casual Riders to Members
+First and foremost it is important to point out that members make up 64.53% of all trips recorded in the 2023 year. This variance in usage is consistent across all ride type (except docker bikes), where members completed more than 60% of the trips. 
+
+However, it is also important to note that across all timeframes (hour, day and month), the average trip duration of a casual rider was always longer than that of a member. 
+
+Analysing the starting locations of both casual riders and members, there is no significant difference, with the bulk of trips being taken around the city centre and along the coast.
 
 ## Act
+Following the analysis of the data, three (3) key recommendations can be made to help convert more casual riders to members.
+1. Since casual riders on average have longer trips, providing discounts to members for extended trip durations could incentivise more casual riders to sign up.
+2. As casual riders typically use the service most on weekends, providing a discounted weekday rate for new members could prove an effective way to promote more sign-ups.
+3. Marketing member only deals for the winter months would prove useful for increasing usage by casual riders, as during this time casual trips are on average on 25% of the members. 
