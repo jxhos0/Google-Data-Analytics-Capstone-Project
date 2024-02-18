@@ -8,8 +8,6 @@ Cyclistic is a bike-share program that features more than 5,800 bicycles and 600
 ### Scenario
 Lily Moreno, the director of marketing at Cyclistic believes the company’s future success depends on maximizing the number of annual memberships. Therefore, the team wants to understand how casual riders and annual members use Cyclistic bikes dierently. From these insights, a new marketing strategy will be designed to convert casual riders into annual members. But first, recommendations must be backed up with compelling data insights and professional data visualizations, so Cyclistic executives must approve them.
 
-
-
 ## Ask
 For this analysis, Moreno has set a clear goal. Design marketing strategies aimed at converting casual riders into annual members.
 
@@ -102,17 +100,41 @@ Despite having a table containing all the data, rows that are missing data have 
   COUNTIF(member_casual IS null) member_casual
 FROM `data.2023-all-tripdata` ;
 ```
-Showed that there was data missing for the start station name and ID, end station name and ID as well as the end latitude and longitude.
-
-In order to accurately analyse the data, it is important to first remove these values from the table. This was completed at the same time as transforming the data. 
-
-While transforming the data, based on the started_at timestamp, the day of the week and month was extracted and placed in a new columns called day_of_week and month respectively. While doing this transformation the days and months were also converted into text for easier readability.
-
-Additionally, ride length was calulated using the started_at and ended_at timestamps and placed in a new column called ride_length for later analysis.
-
-All of this was completed while also exluding null values, and additionally rows where the ride length was less than a minute or more than 24 hours using the following query.
+This query showed that there was data missing for the start station name and ID, end station name and ID as well as the end latitude and longitude. Running the below query handled rows with null values, creating a new table in the process.
 ```
 CREATE TABLE IF NOT EXISTS `divvy-comp.data.2023-cleaneddata` AS (
+  SELECT 
+    ride_id, 
+    rideable_type, 
+    started_at, 
+    ended_at,
+    start_station_name, 
+    end_station_name, 
+    start_lat, start_lng, 
+    end_lat, 
+    end_lng, 
+    member_casual
+  FROM 
+    `divvy-comp.data.2023-all-tripdata`  
+  WHERE 
+    start_station_name IS NOT NULL AND
+    end_station_name IS NOT NULL AND
+    end_lat IS NOT NULL AND
+    end_lng IS NOT NULL
+);
+```
+
+## Analyse
+With a clean dataset it was important to perform calculations in order to better understand what the data was showing. To do this, it was important to know the following information on each ride: 
+- Day of week
+- Month
+- Ride length
+
+To complete these calcualtions we used the CASE EXTRACT function in Google BigQuery, utilising the started_at and ended_at timestamps in order to complete these calculations.
+
+Running the below query created a new table (unless it existed) adding columns fora day of week, month and ride length. While performing these calculations it was decided to exclude rides where the ride length was less than 1 minute or more than 24 hours as these were deemed as outliers.
+```
+CREATE TABLE IF NOT EXISTS `divvy-comp.data.2023-cleaneddata_mod` AS (
   SELECT 
     a.ride_id, rideable_type, started_at, ended_at, 
     ride_length,
@@ -141,26 +163,26 @@ CREATE TABLE IF NOT EXISTS `divvy-comp.data.2023-cleaneddata` AS (
     END AS month,
     start_station_name, end_station_name, 
     start_lat, start_lng, end_lat, end_lng, member_casual
-  FROM `divvy-comp.data.2023-all-tripdata`  a
+  FROM `divvy-comp.data.2023-cleaneddata`  a
   JOIN (
     SELECT ride_id, (
       EXTRACT(HOUR FROM (ended_at - started_at)) * 60 +
       EXTRACT(MINUTE FROM (ended_at - started_at)) +
       EXTRACT(SECOND FROM (ended_at - started_at)) / 60) AS ride_length
-    FROM `divvy-comp.data.2023-all-tripdata` 
+    FROM `divvy-comp.data.2023-cleaneddata` 
   ) b 
   ON a.ride_id = b.ride_id
-  WHERE 
-    start_station_name IS NOT NULL AND
-    end_station_name IS NOT NULL AND
-    end_lat IS NOT NULL AND
-    end_lng IS NOT NULL AND
+  WHERE
     ride_length > 1 AND ride_length < 1440
 );
 ```
 
-## Analyse
-
 ## Share
+With the data now cleaned and processed, a table with all rides and no missing values was able to be used to create valid visualisations to adequately present findings. 
+
+The tool used for this was Tableau, and the dhasboard can be seen [here](https://public.tableau.com/views/GoogleDataAnalyticsCapstoneProjectCyclistic_17082839734260/CyclisticCaseStudy?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link). 
+
+
+
 
 ## Act
